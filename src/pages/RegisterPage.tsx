@@ -2,6 +2,7 @@ import { useState } from "react";
 import { register } from "../services/auth";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
+import { Link } from "react-router-dom";
 
 export const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -106,6 +107,15 @@ export const RegisterPage = () => {
             {loading ? "Cadastrando..." : "Cadastrar"}
           </Button>
         </form>
+        <p className="text-sm text-center text-gray-600">
+          Já tem uma conta?{" "}
+          <Link
+            to="/login"
+            className="font-medium text-indigo-600 hover:underline"
+          >
+            Faça o login
+          </Link>
+        </p>
       </div>
     </div>
   );

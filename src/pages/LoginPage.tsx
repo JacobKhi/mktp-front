@@ -2,6 +2,7 @@ import { useState } from "react";
 import { login } from "../services/auth";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
+import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -54,6 +55,15 @@ export const LoginPage = () => {
             {loading ? "Entrando..." : "Entrar"}
           </Button>
         </form>
+        <p className="text-sm text-center text-gray-600">
+          Não tem uma conta?{" "}
+          <Link
+            to="/register"
+            className="font-medium text-indigo-600 hover:underline"
+          >
+            Cadastre-se
+          </Link>
+        </p>
       </div>
     </div>
   );
