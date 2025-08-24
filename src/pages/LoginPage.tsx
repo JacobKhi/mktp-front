@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { login } from "../services/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
-import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -10,15 +10,17 @@ export const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
-      const data = await login(email, password);
-      console.log("Login bem-sucedido!", data);
-      alert("Login realizado com sucesso! Token: " + data.token);
+      await login(email, password);
+      navigate("/");
     } catch (err) {
       console.error("Falha no login:", err);
       setError("Email ou senha inválidos.");
