@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { register } from "../services/auth";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
-import { Link } from "react-router-dom";
+import { PasswordInput } from "../components/PasswordInput";
 
 export const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export const RegisterPage = () => {
     phoneNumber: "",
     document: "",
   });
+
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -26,6 +29,12 @@ export const RegisterPage = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (formData.password !== confirmPassword) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -40,6 +49,7 @@ export const RegisterPage = () => {
         phoneNumber: "",
         document: "",
       });
+      setConfirmPassword("");
     } catch (err) {
       console.error("Falha no cadastro:", err);
       setError("Não foi possível realizar o cadastro. Verifique seus dados.");
@@ -76,14 +86,22 @@ export const RegisterPage = () => {
             onChange={handleChange}
             required
           />
-          <Input
+
+          <PasswordInput
             id="password"
             label="Senha"
-            type="password"
             value={formData.password}
             onChange={handleChange}
             required
           />
+          <PasswordInput
+            id="confirmPassword"
+            label="Confirme a Senha"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+
           <Input
             id="phoneNumber"
             label="Telefone"

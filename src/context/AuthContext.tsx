@@ -1,5 +1,3 @@
-// src/context/AuthContext.tsx
-
 import { useState, type ReactNode, useEffect } from "react";
 import { login as apiLogin } from "../services/auth";
 import { AuthContext } from "./authContext";
