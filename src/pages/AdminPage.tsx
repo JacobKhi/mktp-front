@@ -1,9 +1,38 @@
+import { useState } from "react";
 import { useSellerRequests } from "../hooks/useSellerRequests";
 import { Button } from "../components/Button";
+import { ConfirmationModal } from "../components/ui/ConfirmationModal";
+
+interface ConfirmationState {
+  action: "approve" | "reject";
+  request: {
+    id: number;
+    name: string;
+  };
+}
 
 export const AdminPage = () => {
   const { requests, loading, error, handleApprove, handleReject } =
     useSellerRequests();
+
+  const [confirmation, setConfirmation] = useState<ConfirmationState | null>(
+    null
+  );
+
+  const handleConfirm = () => {
+    if (confirmation) {
+      if (confirmation.action === "approve") {
+        handleApprove(confirmation.request.id);
+      } else {
+        handleReject(confirmation.request.id);
+      }
+      setConfirmation(null);
+    }
+  };
+
+  const handleCancel = () => {
+    setConfirmation(null);
+  };
 
   if (loading) {
     return <div className="text-center mt-10">Carregando solicitações...</div>;
@@ -35,13 +64,17 @@ export const AdminPage = () => {
                 </div>
                 <div className="flex gap-4 mt-4 sm:mt-0">
                   <Button
-                    onClick={() => handleApprove(request.id)}
+                    onClick={() =>
+                      setConfirmation({ action: "approve", request })
+                    }
                     className="px-4 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-700"
                   >
                     Aprovar
                   </Button>
                   <Button
-                    onClick={() => handleReject(request.id)}
+                    onClick={() =>
+                      setConfirmation({ action: "reject", request })
+                    }
                     className="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"
                   >
                     Rejeitar
@@ -54,6 +87,22 @@ export const AdminPage = () => {
           <p>Nenhuma solicitação pendente no momento.</p>
         )}
       </div>
+
+      <ConfirmationModal
+        isOpen={!!confirmation}
+        title={`Confirmar ${
+          confirmation?.action === "approve" ? "Aprovação" : "Rejeição"
+        }`}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      >
+        Você tem certeza que deseja{" "}
+        <strong>
+          {confirmation?.action === "approve" ? "aprovar" : "rejeitar"}
+        </strong>{" "}
+        a solicitação de <strong>{confirmation?.request.name}</strong> para se
+        tornar um vendedor?
+      </ConfirmationModal>
     </div>
   );
 };
