@@ -5,9 +5,7 @@ import { AuthContext, type User } from "./authContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("authToken")
-  );
+  const [token, setToken] = useState<string | null>(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
 
   useEffect(() => {
@@ -45,15 +43,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    setToken(null);
     setUser(null);
+    setToken(null);
     localStorage.removeItem("authToken");
   };
 
   if (loadingInitial) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        Carregando aplicação...
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <p>Carregando aplicação...</p>
       </div>
     );
   }
