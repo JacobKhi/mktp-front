@@ -2,13 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { AdminPage } from "./pages/AdminPage.tsx";
 import { LoginPage } from "./pages/LoginPage.tsx";
 import { RegisterPage } from "./pages/RegisterPage.tsx";
 import { HomePage } from "./pages/HomePage.tsx";
-import { BecomeSellerPage } from "./pages/BecomeSellerPage.tsx";
 import { ProfilePage } from "./pages/ProfilePage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { MainLayout } from "./components/layout/MainLayout.tsx";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute.tsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -24,8 +25,13 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
-        path: "/become-seller",
-        element: <BecomeSellerPage />,
+        element: <ProtectedRoute allowedRoles={["ADMIN"]} />,
+        children: [
+          {
+            path: "/admin",
+            element: <AdminPage />,
+          },
+        ],
       },
     ],
   },

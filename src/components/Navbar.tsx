@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
 
   return (
     <nav className="bg-white shadow-md">
@@ -22,6 +22,14 @@ export const Navbar = () => {
         <div className="flex items-center space-x-4">
           {isAuthenticated ? (
             <>
+              {user?.profile === "ADMIN" && (
+                <Link
+                  to="/admin"
+                  className="text-gray-600 font-semibold hover:text-indigo-600"
+                >
+                  Admin
+                </Link>
+              )}
               <Link
                 to="/profile"
                 className="text-gray-600 hover:text-indigo-600"
