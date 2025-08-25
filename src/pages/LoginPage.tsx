@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
+import { PasswordInput } from "../components/PasswordInput";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -42,10 +43,9 @@ export const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <Input
+          <PasswordInput
             id="password"
             label="Senha"
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
