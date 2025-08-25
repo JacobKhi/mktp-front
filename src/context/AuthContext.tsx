@@ -8,29 +8,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("authToken")
   );
-  const [loading, setLoading] = useState(true);
+  const [loadingInitial, setLoadingInitial] = useState(true);
 
   useEffect(() => {
     const loadUserFromToken = async () => {
-      if (token) {
+      const storedToken = localStorage.getItem("authToken");
+      if (storedToken) {
+        setToken(storedToken);
         try {
           const profileData = await getProfile();
           setUser(profileData);
         } catch (error) {
+          localStorage.removeItem("authToken");
           setToken(null);
           setUser(null);
-          localStorage.removeItem("authToken");
         }
       }
-      setLoading(false);
+      setLoadingInitial(false);
     };
 
     loadUserFromToken();
-  }, [token]);
+  }, []);
 
   const login = async (email: string, password: string) => {
-    const data = await apiLogin(email, password);
-    setToken(data.token);
+    try {
+      const tokenData = await apiLogin(email, password);
+      localStorage.setItem("authToken", tokenData.token);
+      setToken(tokenData.token);
+
+      const profileData = await getProfile();
+      setUser(profileData);
+    } catch (error) {
+      logout();
+      throw error;
+    }
   };
 
   const logout = () => {
@@ -39,8 +50,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("authToken");
   };
 
-  if (loading) {
-    return <div>Carregando aplicação...</div>;
+  if (loadingInitial) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Carregando aplicação...
+      </div>
+    );
   }
 
   const value = {
