@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 
 interface RegisterData {
   name: string;
@@ -7,12 +7,6 @@ interface RegisterData {
   phoneNumber: string;
   document: string;
 }
-
-const API_BASE_URL = "http://localhost:8080/api/v1";
-
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-});
 
 export const login = async (email: string, password: string) => {
   const response = await apiClient.post("/auth/login", { email, password });

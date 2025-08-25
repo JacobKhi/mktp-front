@@ -10,9 +10,15 @@ export const HomePage = () => {
         <div className="space-y-4">
           <h1 className="text-3xl font-bold">Bem-vindo(a) ao Marketplace!</h1>
           <p className="text-lg text-gray-700">
-            Você está logado e pode explorar os produtos.
+            Você está logado. O que deseja fazer?
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              to="/become-seller"
+              className="px-6 py-2 text-white bg-green-600 rounded-md hover:bg-green-700"
+            >
+              Tornar-se Vendedor
+            </Link>
             <button
               onClick={logout}
               className="px-6 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"

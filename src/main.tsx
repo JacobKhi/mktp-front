@@ -7,6 +7,8 @@ import { LoginPage } from "./pages/LoginPage.tsx";
 import { RegisterPage } from "./pages/RegisterPage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { HomePage } from "./pages/HomePage";
+import { ProfilePage } from "./pages/ProfilePage.tsx";
+import { BecomeSellerPage } from "./pages/BecomeSellerPage.tsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
+  },
+  {
+    path: "/become-seller",
+    element: <BecomeSellerPage />,
   },
 ]);
 
