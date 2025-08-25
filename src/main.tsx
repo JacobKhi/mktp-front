@@ -2,19 +2,32 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-//import App from "./App.tsx";
 import { LoginPage } from "./pages/LoginPage.tsx";
 import { RegisterPage } from "./pages/RegisterPage.tsx";
-import { AuthProvider } from "./context/AuthContext.tsx";
-import { HomePage } from "./pages/HomePage";
-import { ProfilePage } from "./pages/ProfilePage.tsx";
+import { HomePage } from "./pages/HomePage.tsx";
 import { BecomeSellerPage } from "./pages/BecomeSellerPage.tsx";
+import { ProfilePage } from "./pages/ProfilePage.tsx";
+import { AuthProvider } from "./context/AuthContext.tsx";
+import { MainLayout } from "./components/layout/MainLayout.tsx";
 import "./index.css";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/become-seller",
+        element: <BecomeSellerPage />,
+      },
+    ],
   },
   {
     path: "/login",
@@ -23,14 +36,6 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />,
-  },
-  {
-    path: "/profile",
-    element: <ProfilePage />,
-  },
-  {
-    path: "/become-seller",
-    element: <BecomeSellerPage />,
   },
 ]);
 
