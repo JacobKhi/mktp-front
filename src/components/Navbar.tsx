@@ -36,6 +36,14 @@ export const Navbar = () => {
                   Admin
                 </Link>
               )}
+              {user?.profile === "SELLER" && (
+                <Link
+                  to="/seller/products/create"
+                  className="text-gray-600 font-semibold hover:text-indigo-600"
+                >
+                  Cadastrar Produto
+                </Link>
+              )}
               <Link
                 to="/profile"
                 className="text-gray-600 hover:text-indigo-600"

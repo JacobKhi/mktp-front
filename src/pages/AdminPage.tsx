@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSellerRequests } from "../hooks/useSellerRequests";
 import { Button } from "../components/Button";
 import { ConfirmationModal } from "../components/ui/ConfirmationModal";
+import { PageCard } from "../components/ui/PageCard";
 
 interface ConfirmationState {
   action: "approve" | "reject";
@@ -43,50 +44,45 @@ export const AdminPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">Painel do Administrador</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-4">
-          Solicitações de Vendedores
-        </h2>
-        {requests.length > 0 ? (
-          <ul className="divide-y divide-gray-200">
-            {requests.map((request) => (
-              <li
-                key={request.id}
-                className="py-4 flex flex-col sm:flex-row justify-between items-center"
-              >
-                <div>
-                  <p className="text-lg font-medium text-gray-800">
-                    {request.name}
-                  </p>
-                  <p className="text-sm text-gray-500">{request.email}</p>
-                </div>
-                <div className="flex gap-4 mt-4 sm:mt-0">
-                  <Button
-                    onClick={() =>
-                      setConfirmation({ action: "approve", request })
-                    }
-                    className="px-4 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-700"
-                  >
-                    Aprovar
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      setConfirmation({ action: "reject", request })
-                    }
-                    className="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"
-                  >
-                    Rejeitar
-                  </Button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Nenhuma solicitação pendente no momento.</p>
-        )}
-      </div>
+    <PageCard title="Painel do Administrador">
+      <h2 className="text-2xl font-semibold mb-4">
+        Solicitações de Vendedores
+      </h2>
+      {requests.length > 0 ? (
+        <ul className="divide-y divide-gray-200">
+          {requests.map((request) => (
+            <li
+              key={request.id}
+              className="py-4 flex flex-col sm:flex-row justify-between items-center"
+            >
+              <div>
+                <p className="text-lg font-medium text-gray-800">
+                  {request.name}
+                </p>
+                <p className="text-sm text-gray-500">{request.email}</p>
+              </div>
+              <div className="flex gap-4 mt-4 sm:mt-0">
+                <Button
+                  onClick={() =>
+                    setConfirmation({ action: "approve", request })
+                  }
+                  className="px-4 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-700"
+                >
+                  Aprovar
+                </Button>
+                <Button
+                  onClick={() => setConfirmation({ action: "reject", request })}
+                  className="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"
+                >
+                  Rejeitar
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nenhuma solicitação pendente no momento.</p>
+      )}
 
       <ConfirmationModal
         isOpen={!!confirmation}
@@ -103,6 +99,6 @@ export const AdminPage = () => {
         a solicitação de <strong>{confirmation?.request.name}</strong> para se
         tornar um vendedor?
       </ConfirmationModal>
-    </div>
+    </PageCard>
   );
 };

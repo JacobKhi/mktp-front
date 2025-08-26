@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/LoginPage.tsx";
 import { RegisterPage } from "./pages/RegisterPage.tsx";
 import { HomePage } from "./pages/HomePage.tsx";
 import { ProfilePage } from "./pages/ProfilePage.tsx";
+import { CreateProductPage } from "./pages/CreateProductPage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { MainLayout } from "./components/layout/MainLayout.tsx";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute.tsx";
@@ -24,12 +25,25 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <ProfilePage />,
       },
+
+      // Grupo de rotas protegidas para Administradores
       {
         element: <ProtectedRoute allowedRoles={["ADMIN"]} />,
         children: [
           {
             path: "/admin",
             element: <AdminPage />,
+          },
+        ],
+      },
+
+      // Grupo de rotas protegidas para Vendedores
+      {
+        element: <ProtectedRoute allowedRoles={["SELLER"]} />,
+        children: [
+          {
+            path: "/seller/products/create",
+            element: <CreateProductPage />,
           },
         ],
       },
