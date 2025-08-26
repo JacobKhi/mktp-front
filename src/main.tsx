@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/LoginPage.tsx";
 import { RegisterPage } from "./pages/RegisterPage.tsx";
 import { HomePage } from "./pages/HomePage.tsx";
 import { ProfilePage } from "./pages/ProfilePage.tsx";
+import { MyProductsPage } from "./pages/MyProductsPage.tsx";
 import { CreateProductPage } from "./pages/CreateProductPage.tsx";
 import { CreateCategoryPage } from "./pages/CreateCategoryPage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: "/seller/categories/create",
             element: <CreateCategoryPage />,
+          },
+          {
+            path: "/my-products",
+            element: <MyProductsPage />,
           },
         ],
       },
