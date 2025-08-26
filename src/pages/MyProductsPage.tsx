@@ -76,9 +76,11 @@ export const MyProductsPage = () => {
                 <p className="text-sm text-gray-500">{product.brand}</p>
               </div>
               <div className="flex gap-4 mt-4 sm:mt-0">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-sm py-1 px-3">
-                  Editar
-                </Button>
+                <Link to={`/seller/products/edit/${product.id}`}>
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-sm py-1 px-3">
+                    Editar
+                  </Button>
+                </Link>
                 <Button
                   onClick={() => setProductToDelete(product)}
                   className="bg-red-600 hover:bg-red-700 text-sm py-1 px-3"

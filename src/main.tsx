@@ -9,6 +9,7 @@ import { HomePage } from "./pages/HomePage.tsx";
 import { ProfilePage } from "./pages/ProfilePage.tsx";
 import { MyProductsPage } from "./pages/MyProductsPage.tsx";
 import { CreateProductPage } from "./pages/CreateProductPage.tsx";
+import { EditProductPage } from "./pages/EditProductPage.tsx";
 import { CreateCategoryPage } from "./pages/CreateCategoryPage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { MainLayout } from "./components/layout/MainLayout.tsx";
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
           {
             path: "/my-products",
             element: <MyProductsPage />,
+          },
+          {
+            path: "/seller/products/edit/:productId",
+            element: <EditProductPage />,
           },
         ],
       },

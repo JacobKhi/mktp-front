@@ -10,6 +10,12 @@ interface ProductCreateData {
   variationName: string;
 }
 
+export interface ProductUpdateData {
+  name: string;
+  description: string;
+  brand: string;
+}
+
 export interface SellerProduct {
   id: number;
   name: string;
@@ -45,6 +51,17 @@ export const createProduct = async (productData: ProductCreateData) => {
 
 export const deleteProduct = async (productId: number) => {
   await apiClient.delete(`/seller/products/${productId}`);
+};
+
+export const updateProduct = async (
+  productId: number,
+  productData: ProductUpdateData
+) => {
+  const response = await apiClient.put(
+    `/seller/products/${productId}`,
+    productData
+  );
+  return response.data;
 };
 
 export const getProductById = async (
