@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { createProduct } from "../services/product";
 import { useCategories } from "../hooks/useCategories";
 import { Input } from "../components/Input";
@@ -79,16 +79,20 @@ export const CreateProductPage = () => {
 
   if (categories.length === 0) {
     return (
-      <div className="container mx-auto p-8 text-center">
-        <h1 className="text-2xl font-bold">Nenhuma Categoria Encontrada</h1>
-        <p className="mt-4 text-gray-600">
-          Você não pode cadastrar um produto porque nenhuma categoria foi criada
-          ainda.
-          <br />
-          Por favor, peça a um administrador para cadastrar as categorias
-          primeiro.
-        </p>
-      </div>
+      <PageCard title="Nenhuma Categoria Encontrada">
+        <div className="text-center">
+          <p className="text-gray-600">
+            Você não pode cadastrar um produto porque nenhuma categoria foi
+            criada ainda.
+          </p>
+          <Link
+            to="/seller/categories/create"
+            className="inline-block mt-4 px-6 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+          >
+            Criar Nova Categoria
+          </Link>
+        </div>
+      </PageCard>
     );
   }
 
