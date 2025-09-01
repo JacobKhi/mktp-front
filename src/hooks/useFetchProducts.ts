@@ -4,9 +4,11 @@ import { getProducts } from "../services/api";
 interface Product {
   id: number;
   name: string;
-  description: string;
-  price: number;
   brand: string;
+  variations: {
+    id: number;
+    price: number;
+  }[];
 }
 
 export const useFetchProducts = () => {

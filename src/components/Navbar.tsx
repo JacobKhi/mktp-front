@@ -25,6 +25,9 @@ export const Navbar = () => {
           <Link to="/" className="text-gray-600 hover:text-indigo-600">
             Início
           </Link>
+          <Link to="/products" className="text-gray-600 hover:text-indigo-600">
+            Produtos
+          </Link>
         </div>
 
         <div className="flex items-center space-x-4">
