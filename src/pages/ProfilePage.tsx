@@ -4,6 +4,7 @@ import { Button } from "../components/Button";
 import { requestSellerProfile } from "../services/user";
 import { PageCard } from "../components/ui/PageCard";
 import { ProfileField } from "../components/ui/ProfileField";
+import { Spinner } from "../components/ui/Spinner";
 
 export const ProfilePage = () => {
   const { profile, loading, error } = useProfile();
@@ -33,7 +34,11 @@ export const ProfilePage = () => {
   };
 
   if (loading) {
-    return <div className="text-center mt-10">Carregando perfil...</div>;
+    return (
+      <div className="flex justify-center mt-10">
+        <Spinner size="lg" color="border-indigo-600" />
+      </div>
+    );
   }
 
   if (error) {

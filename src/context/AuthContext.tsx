@@ -2,6 +2,7 @@ import { useState, type ReactNode, useEffect } from "react";
 import { login as apiLogin } from "../services/auth";
 import { getProfile } from "../services/user";
 import { AuthContext, type User } from "./authContext";
+import { Spinner } from "../components/ui/Spinner";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   if (loadingInitial) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100">
-        <p>Carregando aplicação...</p>
+        <Spinner size="lg" color="border-indigo-600" />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { PasswordInput } from "../components/PasswordInput";
+import { Spinner } from "../components/ui/Spinner";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -54,7 +55,13 @@ export const LoginPage = () => {
           {error && <p className="text-sm text-red-600">{error}</p>}
 
           <Button type="submit" disabled={loading}>
-            {loading ? "Entrando..." : "Entrar"}
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <Spinner size="sm" />
+              </div>
+            ) : (
+              "Entrar"
+            )}
           </Button>
         </form>
         <p className="text-sm text-center text-gray-600">

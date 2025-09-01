@@ -10,6 +10,7 @@ import { PageCard } from "../components/ui/PageCard";
 import { Button } from "../components/Button";
 import { ConfirmationModal } from "../components/ui/ConfirmationModal";
 import { ProductDetailModal } from "../components/ui/ProductDetailModal";
+import { Spinner } from "../components/ui/Spinner";
 
 export const MyProductsPage = () => {
   const { products, loading, error, handleDelete } = useSellerProducts();
@@ -43,7 +44,11 @@ export const MyProductsPage = () => {
   };
 
   if (loading) {
-    return <div className="text-center mt-10">Carregando seus produtos...</div>;
+    return (
+      <div className="flex justify-center mt-10">
+        <Spinner size="lg" color="border-indigo-600" />
+      </div>
+    );
   }
 
   if (error) {

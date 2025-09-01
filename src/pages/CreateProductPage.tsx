@@ -5,6 +5,7 @@ import { useCategories } from "../hooks/useCategories";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { PageCard } from "../components/ui/PageCard";
+import { Spinner } from "../components/ui/Spinner";
 
 export const CreateProductPage = () => {
   const {
@@ -67,7 +68,9 @@ export const CreateProductPage = () => {
 
   if (categoriesLoading) {
     return (
-      <div className="text-center mt-10">Carregando dados necessários...</div>
+      <div className="flex justify-center mt-10">
+        <Spinner size="lg" color="border-indigo-600" />
+      </div>
     );
   }
 

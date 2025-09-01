@@ -3,6 +3,7 @@ import { useSellerRequests } from "../hooks/useSellerRequests";
 import { Button } from "../components/Button";
 import { ConfirmationModal } from "../components/ui/ConfirmationModal";
 import { PageCard } from "../components/ui/PageCard";
+import { Spinner } from "../components/ui/Spinner";
 
 interface ConfirmationState {
   action: "approve" | "reject";
@@ -36,7 +37,11 @@ export const AdminPage = () => {
   };
 
   if (loading) {
-    return <div className="text-center mt-10">Carregando solicitações...</div>;
+    return (
+      <div className="flex justify-center mt-10">
+        <Spinner size="lg" color="border-indigo-600" />
+      </div>
+    );
   }
 
   if (error) {
