@@ -19,6 +19,11 @@ export const getMyOrders = async (): Promise<Order[]> => {
   return response.data;
 };
 
+export const getOrderById = async (orderId: number): Promise<Order> => {
+  const response = await apiClient.get(`/orders/${orderId}`);
+  return response.data;
+};
+
 export const createOrderFromCart = async (): Promise<Order> => {
   const response = await apiClient.post("/orders/from-cart");
   return response.data;

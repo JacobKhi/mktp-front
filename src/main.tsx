@@ -16,6 +16,7 @@ import { AddressesPage } from "./pages/AddressesPage.tsx";
 import { OrderConfirmationPage } from "./pages/OrderConfirmationPage.tsx";
 import { CartPage } from "./pages/CartPage.tsx";
 import { MyOrdersPage } from "./pages/MyOrdersPage.tsx";
+import { CheckoutPage } from "./pages/CheckoutPage.tsx";
 import { MainLayout } from "./components/layout/MainLayout.tsx";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute.tsx";
 import { AppProviders } from "./context/AppProviders.tsx";
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
           {
             path: "/my-orders",
             element: <MyOrdersPage />,
+          },
+          {
+            path: "/checkout/:orderId",
+            element: <CheckoutPage />,
           },
         ],
       },
