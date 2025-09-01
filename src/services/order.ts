@@ -1,6 +1,7 @@
 import apiClient from "./apiClient";
 
 export interface Order {
+  id: number;
   orderNumber: string;
   orderDate: string;
   totalAmount: number;

@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import { useMyOrders } from "../hooks/useMyOrders";
 import { PageCard } from "../components/ui/PageCard";
 import { Spinner } from "../components/ui/Spinner";
+import { Button } from "../components/Button";
 
 export const MyOrdersPage = () => {
   const { orders, loading, error } = useMyOrders();
@@ -23,7 +25,7 @@ export const MyOrdersPage = () => {
         <div className="space-y-6">
           {orders.map((order) => (
             <div key={order.orderNumber} className="p-4 border rounded-md">
-              <div className="flex justify-between items-center mb-4 border-b pb-2">
+              <div className="flex justify-between items-start mb-4 border-b pb-2">
                 <div>
                   <p className="font-semibold">Pedido #{order.orderNumber}</p>
                   <p className="text-sm text-gray-500">
@@ -40,15 +42,22 @@ export const MyOrdersPage = () => {
                   </p>
                 </div>
               </div>
-              <div>
-                <h4 className="font-semibold mb-2">Itens:</h4>
-                <ul className="list-disc list-inside text-gray-700">
-                  {order.items.map((item) => (
-                    <li key={item.productId}>
-                      {item.productName} (x{item.quantity})
-                    </li>
-                  ))}
-                </ul>
+              <div className="flex justify-between items-end">
+                <div>
+                  <h4 className="font-semibold mb-2">Itens:</h4>
+                  <ul className="list-disc list-inside text-gray-700">
+                    {order.items.map((item) => (
+                      <li key={item.productId}>
+                        {item.productName} (x{item.quantity})
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {order.status === "PROCESSING" && (
+                  <Link to={`/checkout/${order.id}`}>
+                    <Button className="text-sm py-1 px-3">Pagar Agora</Button>
+                  </Link>
+                )}
               </div>
             </div>
           ))}

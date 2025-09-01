@@ -11,9 +11,15 @@ interface PaymentResponse {
   orderNumber: string;
 }
 
-export const processPayment = async (
-  paymentData: PaymentRequestData
-): Promise<PaymentResponse> => {
-  const response = await apiClient.post("/payments", paymentData);
+export const createPaymentIntent = async (
+  orderId: number
+): Promise<{ clientSecret: string }> => {
+  const response = await apiClient.post(
+    `/payments/create-payment-intent/${orderId}`
+  );
   return response.data;
+};
+
+export const confirmOrderOnBackend = async (orderId: number): Promise<void> => {
+  await apiClient.post(`/payments/confirm-order/${orderId}`);
 };

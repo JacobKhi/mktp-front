@@ -17,7 +17,10 @@ export const CartPage = () => {
     try {
       const newOrder = await createOrderFromCart();
       clearCart();
-      navigate("/order-confirmation", { state: { order: newOrder } });
+      alert(
+        "Pedido criado com sucesso! Agora você pode prosseguir para o pagamento."
+      );
+      navigate(`/checkout/${newOrder.id}`);
     } catch (err) {
       console.error("Falha ao finalizar a compra:", err);
     } finally {
