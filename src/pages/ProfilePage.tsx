@@ -5,6 +5,7 @@ import { requestSellerProfile } from "../services/user";
 import { PageCard } from "../components/ui/PageCard";
 import { ProfileField } from "../components/ui/ProfileField";
 import { Spinner } from "../components/ui/Spinner";
+import { Link } from "react-router-dom";
 
 export const ProfilePage = () => {
   const { profile, loading, error } = useProfile();
@@ -63,6 +64,15 @@ export const ProfilePage = () => {
           label="Tipo de Conta"
           value={profile.profile.toLowerCase()}
         />
+      </div>
+
+      <div className="mt-8 pt-6 border-t">
+        <h2 className="text-2xl font-bold">Gerenciar Conta</h2>
+        <div className="mt-4">
+          <Link to="/my-addresses">
+            <Button>Meus Endereços</Button>
+          </Link>
+        </div>
       </div>
 
       {profile.profile === "CUSTOMER" && (

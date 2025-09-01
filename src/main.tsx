@@ -12,6 +12,7 @@ import { CreateProductPage } from "./pages/CreateProductPage.tsx";
 import { EditProductPage } from "./pages/EditProductPage.tsx";
 import { CreateCategoryPage } from "./pages/CreateCategoryPage.tsx";
 import { ProductsListPage } from "./pages/ProductsListPage.tsx";
+import { AddressesPage } from "./pages/AddressesPage.tsx";
 import { MainLayout } from "./components/layout/MainLayout.tsx";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute.tsx";
 import { AppProviders } from "./context/AppProviders.tsx";
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
           {
             path: "/cart",
             element: <CartPage />,
+          },
+          {
+            path: "/my-addresses",
+            element: <AddressesPage />,
           },
         ],
       },
