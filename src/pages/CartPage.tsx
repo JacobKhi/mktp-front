@@ -1,10 +1,29 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
+import { createOrderFromCart } from "../services/order";
 import { PageCard } from "../components/ui/PageCard";
 import { Button } from "../components/Button";
 import { Spinner } from "../components/ui/Spinner";
 
 export const CartPage = () => {
-  const { cart, loading, updateQuantity, removeFromCart } = useCart();
+  const { cart, loading, updateQuantity, removeFromCart, clearCart } =
+    useCart();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCheckout = async () => {
+    setCheckoutLoading(true);
+    try {
+      const newOrder = await createOrderFromCart();
+      clearCart();
+      navigate("/order-confirmation", { state: { order: newOrder } });
+    } catch (err) {
+      console.error("Falha ao finalizar a compra:", err);
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -61,7 +80,13 @@ export const CartPage = () => {
           <p className="text-xl font-bold">
             Total: R$ {cart.totalAmount.toFixed(2)}
           </p>
-          <Button className="mt-4">Finalizar Compra</Button>
+          <Button
+            onClick={handleCheckout}
+            disabled={checkoutLoading}
+            className="mt-4"
+          >
+            {checkoutLoading ? <Spinner size="sm" /> : "Finalizar Compra"}
+          </Button>
         </div>
       </div>
     </PageCard>

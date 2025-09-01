@@ -41,6 +41,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCart(updatedCart);
   };
 
+  const clearCart = () => {
+    setCart(null);
+  };
+
   const itemCount = useMemo(() => {
     return cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
   }, [cart]);
@@ -52,6 +56,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     addToCart,
     updateQuantity,
     removeFromCart,
+    clearCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

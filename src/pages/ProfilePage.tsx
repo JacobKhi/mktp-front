@@ -72,6 +72,9 @@ export const ProfilePage = () => {
           <Link to="/my-addresses">
             <Button>Meus Endereços</Button>
           </Link>
+          <Link to="/my-orders">
+            <Button>Meus Pedidos</Button>
+          </Link>
         </div>
       </div>
 
