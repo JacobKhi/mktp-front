@@ -11,10 +11,11 @@ import { MyProductsPage } from "./pages/MyProductsPage.tsx";
 import { CreateProductPage } from "./pages/CreateProductPage.tsx";
 import { EditProductPage } from "./pages/EditProductPage.tsx";
 import { CreateCategoryPage } from "./pages/CreateCategoryPage.tsx";
-import { AuthProvider } from "./context/AuthContext.tsx";
 import { MainLayout } from "./components/layout/MainLayout.tsx";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute.tsx";
+import { AppProviders } from "./context/AppProviders.tsx";
 import "./index.css";
+import { CartPage } from "./pages/CartPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,17 @@ const router = createBrowserRouter([
           },
         ],
       },
+
+      // Grupo de rotas protegidas para Compradores
+      {
+        element: <ProtectedRoute allowedRoles={["CUSTOMER"]} />,
+        children: [
+          {
+            path: "/cart",
+            element: <CartPage />,
+          },
+        ],
+      },
     ],
   },
   {
@@ -76,8 +88,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
+    <AppProviders>
       <RouterProvider router={router} />
-    </AuthProvider>
+    </AppProviders>
   </React.StrictMode>
 );
