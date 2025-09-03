@@ -1,11 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMyOrders } from "../hooks/useMyOrders";
 import { PageCard } from "../components/ui/PageCard";
 import { Spinner } from "../components/ui/Spinner";
 import { Button } from "../components/Button";
+import { LeaveReviewModal } from "../components/forms/LeaveReviewModal";
+import { OrderStatus } from "../services/order";
+
+interface ReviewableItem {
+  productId: number;
+  orderId: number;
+  productName: string;
+}
 
 export const MyOrdersPage = () => {
-  const { orders, loading, error } = useMyOrders();
+  const { orders, loading, error, reviewedProductIds, markProductAsReviewed } =
+    useMyOrders();
+  const [reviewingItem, setReviewingItem] = useState<ReviewableItem | null>(
+    null
+  );
 
   if (loading) {
     return (
@@ -42,23 +55,53 @@ export const MyOrdersPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-between items-end">
-                <div>
-                  <h4 className="font-semibold mb-2">Itens:</h4>
-                  <ul className="list-disc list-inside text-gray-700">
-                    {order.items.map((item) => (
-                      <li key={item.productId}>
-                        {item.productName} (x{item.quantity})
+              <div>
+                <h4 className="font-semibold mb-2">Itens:</h4>
+                <ul className="space-y-2">
+                  {order.items.map((item) => {
+                    const isReviewed = reviewedProductIds.has(item.productId);
+                    return (
+                      <li
+                        key={item.productId}
+                        className="flex justify-between items-center"
+                      >
+                        <span>
+                          {item.productName} (x{item.quantity})
+                        </span>
+                        {order.status === OrderStatus.DELIVERED &&
+                          !isReviewed && (
+                            <Button
+                              onClick={() =>
+                                setReviewingItem({
+                                  productId: item.productId,
+                                  productName: item.productName,
+                                  orderId: order.id,
+                                })
+                              }
+                              className="text-xs py-1 px-2 w-auto bg-gray-600 hover:bg-gray-700"
+                            >
+                              Avaliar
+                            </Button>
+                          )}
+                        {isReviewed && (
+                          <span className="text-sm text-green-600 font-semibold">
+                            Avaliado
+                          </span>
+                        )}
                       </li>
-                    ))}
-                  </ul>
-                </div>
-                {order.status === "PROCESSING" && (
-                  <Link to={`/checkout/${order.id}`}>
-                    <Button className="text-sm py-1 px-3">Pagar Agora</Button>
-                  </Link>
-                )}
+                    );
+                  })}
+                </ul>
               </div>
+              {order.status === OrderStatus.PROCESSING && (
+                <div className="text-right mt-4">
+                  <Link to={`/checkout/${order.id}`}>
+                    <Button className="text-sm py-1 px-3 w-auto">
+                      Pagar Agora
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -66,6 +109,18 @@ export const MyOrdersPage = () => {
         <p className="text-center text-gray-500">
           Você ainda não fez nenhum pedido.
         </p>
+      )}
+
+      {reviewingItem && (
+        <LeaveReviewModal
+          isOpen={!!reviewingItem}
+          onClose={() => setReviewingItem(null)}
+          productId={reviewingItem.productId}
+          orderId={reviewingItem.orderId}
+          onReviewSubmit={() => {
+            markProductAsReviewed(reviewingItem.productId);
+          }}
+        />
       )}
     </PageCard>
   );
