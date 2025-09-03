@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getProductById, type ProductDetails } from "../services/product";
 import { getProductReviews, type Review } from "../services/review";
-import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
 import { PageCard } from "../components/ui/PageCard";
 import { Spinner } from "../components/ui/Spinner";

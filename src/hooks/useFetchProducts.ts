@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { getProducts } from "../services/api";
+import { useState, useEffect, useCallback } from "react";
+import { getProducts, type ProductFilterParams } from "../services/product";
 
 interface Product {
   id: number;
@@ -8,6 +8,7 @@ interface Product {
   variations: {
     id: number;
     price: number;
+    stock: number;
   }[];
 }
 
@@ -15,22 +16,24 @@ export const useFetchProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState<ProductFilterParams>({});
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await getProducts(filters);
+      setProducts(data);
+    } catch (err) {
+      console.error("Não foi possível carregar os produtos:", err);
+      setError("Não foi possível carregar os produtos. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }, [filters]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch (err) {
-        console.error("Não foi possível carregar os produtos:", err);
-        setError("Não foi possível carregar os produtos. Tente novamente.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
-  return { products, loading, error };
+  return { products, loading, error, setFilters };
 };

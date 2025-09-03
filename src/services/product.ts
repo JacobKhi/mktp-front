@@ -1,5 +1,12 @@
 import apiClient from "./apiClient";
 
+export interface ProductFilterParams {
+  name?: string;
+  categoryId?: number;
+  minPrice?: number;
+  maxPrice?: number;
+}
+
 interface ProductCreateData {
   name: string;
   description: string;
@@ -45,6 +52,11 @@ export interface VariationData {
   price: number;
   stock: number;
 }
+
+export const getProducts = async (params?: ProductFilterParams) => {
+  const response = await apiClient.get("/products", { params });
+  return response.data;
+};
 
 export const getSellerProducts = async (): Promise<SellerProduct[]> => {
   const response = await apiClient.get("/seller/products");
