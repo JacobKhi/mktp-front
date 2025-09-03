@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../Navbar";
+import { Notification } from "../ui/Notification";
 
 export const MainLayout = () => {
   return (
@@ -8,6 +9,7 @@ export const MainLayout = () => {
       <main>
         <Outlet />
       </main>
+      <Notification />
     </div>
   );
 };

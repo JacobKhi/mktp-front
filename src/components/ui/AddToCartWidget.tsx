@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useCart } from "../../hooks/useCart";
 import { Button } from "../Button";
+import {
+  NotificationContext,
+  type NotificationContextType,
+} from "../../context/notificationContext";
 
 interface AddToCartWidgetProps {
   variationId: number;
@@ -12,6 +16,9 @@ export const AddToCartWidget = ({
   stock,
 }: AddToCartWidgetProps) => {
   const { addToCart } = useCart();
+  const { showNotification } = useContext(
+    NotificationContext
+  ) as NotificationContextType;
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (amount: number) => {
@@ -26,7 +33,10 @@ export const AddToCartWidget = ({
   const handleAddToCart = (event: React.MouseEvent) => {
     event.preventDefault();
     addToCart(variationId, quantity);
-    alert(`${quantity} item(s) adicionado(s) ao carrinho!`);
+    showNotification(
+      `${quantity} item(s) adicionado(s) ao carrinho!`,
+      "success"
+    );
   };
 
   if (stock === 0) {
