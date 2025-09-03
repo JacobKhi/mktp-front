@@ -16,6 +16,7 @@ import { AddressesPage } from "./pages/AddressesPage.tsx";
 import { CartPage } from "./pages/CartPage.tsx";
 import { MyOrdersPage } from "./pages/MyOrdersPage.tsx";
 import { CheckoutPage } from "./pages/CheckoutPage.tsx";
+import { SellerOrdersPage } from "./pages/SellerOrdersPage.tsx";
 import { MainLayout } from "./components/layout/MainLayout.tsx";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute.tsx";
 import { AppProviders } from "./context/AppProviders.tsx";
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
           {
             path: "/seller/products/edit/:productId",
             element: <EditProductPage />,
+          },
+          {
+            path: "/seller/orders",
+            element: <SellerOrdersPage />,
           },
         ],
       },

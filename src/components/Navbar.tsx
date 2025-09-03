@@ -44,16 +44,16 @@ export const Navbar = () => {
               {user?.profile === "SELLER" && (
                 <>
                   <Link
+                    to="/seller/orders"
+                    className="text-gray-600 font-semibold hover:text-indigo-600"
+                  >
+                    Minhas Vendas
+                  </Link>
+                  <Link
                     to="/my-products"
                     className="text-gray-600 font-semibold hover:text-indigo-600"
                   >
                     Meus Produtos
-                  </Link>
-                  <Link
-                    to="/seller/categories/create"
-                    className="text-gray-600 font-semibold hover:text-indigo-600"
-                  >
-                    Criar Categoria
                   </Link>
                   <Link
                     to="/seller/products/create"
