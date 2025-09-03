@@ -12,6 +12,7 @@ import { CreateProductPage } from "./pages/CreateProductPage.tsx";
 import { EditProductPage } from "./pages/EditProductPage.tsx";
 import { CreateCategoryPage } from "./pages/CreateCategoryPage.tsx";
 import { ProductsListPage } from "./pages/ProductsListPage.tsx";
+import { ProductDetailPage } from "./pages/ProductDetailPage.tsx";
 import { AddressesPage } from "./pages/AddressesPage.tsx";
 import { CartPage } from "./pages/CartPage.tsx";
 import { MyOrdersPage } from "./pages/MyOrdersPage.tsx";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <ProductsListPage />,
+      },
+      {
+        path: "/products/:productId",
+        element: <ProductDetailPage />,
       },
       {
         path: "/profile",

@@ -2,7 +2,7 @@ import { type ReactNode } from "react";
 
 interface PageCardProps {
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const PageCard = ({ title, children }: PageCardProps) => {
