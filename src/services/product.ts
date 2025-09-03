@@ -39,6 +39,13 @@ export interface ProductDetails {
   }[];
 }
 
+export interface VariationData {
+  name: string;
+  sku?: string;
+  price: number;
+  stock: number;
+}
+
 export const getSellerProducts = async (): Promise<SellerProduct[]> => {
   const response = await apiClient.get("/seller/products");
   return response.data;
@@ -68,5 +75,27 @@ export const getProductById = async (
   productId: number
 ): Promise<ProductDetails> => {
   const response = await apiClient.get(`/products/${productId}`);
+  return response.data;
+};
+
+export const addVariationToProduct = async (
+  productId: number,
+  variationData: VariationData
+) => {
+  const response = await apiClient.post(
+    `/seller/products/${productId}/variacoes`,
+    variationData
+  );
+  return response.data;
+};
+
+export const updateVariation = async (
+  variationId: number,
+  variationData: VariationData
+) => {
+  const response = await apiClient.put(
+    `/seller/products/variacoes/${variationId}`,
+    variationData
+  );
   return response.data;
 };
