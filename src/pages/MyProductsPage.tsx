@@ -57,7 +57,12 @@ export const MyProductsPage = () => {
 
   return (
     <PageCard title="Meus Produtos">
-      <div className="mb-6 text-right">
+      <div className="mb-6 flex flex-col sm:flex-row justify-end gap-4">
+        <Link to="/seller/categories/create">
+          <Button className="bg-gray-600 hover:bg-gray-700">
+            Criar Nova Categoria
+          </Button>
+        </Link>
         <Link to="/seller/products/create">
           <Button>Cadastrar Novo Produto</Button>
         </Link>
