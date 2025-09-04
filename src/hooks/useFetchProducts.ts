@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import { getProducts, type ProductFilterParams } from "../services/product";
 
 interface Product {
@@ -16,7 +17,15 @@ export const useFetchProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [filters, setFilters] = useState<ProductFilterParams>({});
+
+  const [searchParams] = useSearchParams();
+
+  const [filters, setFilters] = useState<ProductFilterParams>(() => {
+    const params: ProductFilterParams = {};
+    const name = searchParams.get("name");
+    if (name) params.name = name;
+    return params;
+  });
 
   const fetchProducts = useCallback(async () => {
     try {
