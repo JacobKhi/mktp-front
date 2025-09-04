@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AdminPage } from "./pages/AdminPage.tsx";
 import { LoginPage } from "./pages/LoginPage.tsx";
 import { RegisterPage } from "./pages/RegisterPage.tsx";
+import { ForgotPasswordPage } from "./pages/ForgotPasswordPage.tsx"; // Importar
+import { ResetPasswordPage } from "./pages/ResetPasswordPage.tsx";
 import { HomePage } from "./pages/HomePage.tsx";
 import { ProfilePage } from "./pages/ProfilePage.tsx";
 import { MyProductsPage } from "./pages/MyProductsPage.tsx";
@@ -113,6 +115,14 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPasswordPage />,
   },
 ]);
 

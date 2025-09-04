@@ -52,6 +52,15 @@ export const LoginPage = () => {
             required
           />
 
+          <div className="text-right text-sm">
+            <Link
+              to="/forgot-password"
+              className="font-medium text-indigo-600 hover:underline"
+            >
+              Esqueceu a senha?
+            </Link>
+          </div>
+
           {error && <p className="text-sm text-red-600">{error}</p>}
 
           <Button type="submit" disabled={loading}>
