@@ -43,7 +43,6 @@ export const ProfilePage = () => {
     setRequestLoading(true);
     setRequestError(null);
     setSuccessMessage(null);
-
     try {
       const response = await requestSellerProfile();
       setSuccessMessage(
@@ -148,17 +147,19 @@ export const ProfilePage = () => {
         </div>
       )}
 
-      <div className="mt-8 pt-6 border-t">
-        <h2 className="text-2xl font-bold">Gerenciar Conta</h2>
-        <div className="mt-4 flex flex-col sm:flex-row gap-4">
-          <Link to="/my-addresses" className="w-full">
-            <Button>Meus Endereços</Button>
-          </Link>
-          <Link to="/my-orders" className="w-full">
-            <Button>Meus Pedidos</Button>
-          </Link>
+      {profile.profile === "CUSTOMER" && (
+        <div className="mt-8 pt-6 border-t">
+          <h2 className="text-2xl font-bold">Gerenciar Conta</h2>
+          <div className="mt-4 flex flex-col sm:flex-row gap-4">
+            <Link to="/my-addresses" className="w-full">
+              <Button>Meus Endereços</Button>
+            </Link>
+            <Link to="/my-orders" className="w-full">
+              <Button>Meus Pedidos</Button>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
 
       {profile.profile === "CUSTOMER" && (
         <div className="mt-8 pt-6 border-t">

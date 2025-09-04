@@ -1,16 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useCart } from "../hooks/useCart";
+import { ProfileDropdown } from "../components/ui/ProfileDropdown";
 
 export const Navbar = () => {
-  const { isAuthenticated, logout, user } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { itemCount } = useCart();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -33,36 +28,6 @@ export const Navbar = () => {
         <div className="flex items-center space-x-4">
           {isAuthenticated ? (
             <>
-              {user?.profile === "ADMIN" && (
-                <Link
-                  to="/admin"
-                  className="text-gray-600 font-semibold hover:text-indigo-600"
-                >
-                  Admin
-                </Link>
-              )}
-              {user?.profile === "SELLER" && (
-                <>
-                  <Link
-                    to="/seller/orders"
-                    className="text-gray-600 font-semibold hover:text-indigo-600"
-                  >
-                    Minhas Vendas
-                  </Link>
-                  <Link
-                    to="/my-products"
-                    className="text-gray-600 font-semibold hover:text-indigo-600"
-                  >
-                    Meus Produtos
-                  </Link>
-                  <Link
-                    to="/seller/products/create"
-                    className="text-gray-600 font-semibold hover:text-indigo-600"
-                  >
-                    Cadastrar Produto
-                  </Link>
-                </>
-              )}
               {user?.profile === "CUSTOMER" && (
                 <Link
                   to="/cart"
@@ -89,18 +54,7 @@ export const Navbar = () => {
                   )}
                 </Link>
               )}
-              <Link
-                to="/profile"
-                className="text-gray-600 hover:text-indigo-600"
-              >
-                Meu Perfil
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"
-              >
-                Sair
-              </button>
+              <ProfileDropdown />
             </>
           ) : (
             <>
