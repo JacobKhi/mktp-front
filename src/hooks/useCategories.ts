@@ -9,8 +9,8 @@ export const useCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await getCategories();
-        setCategories(data);
+        const response = await getCategories();
+        setCategories(response.content);
       } catch (err) {
         console.error("Falha ao buscar categorias:", err);
         setError("Não foi possível carregar as categorias.");

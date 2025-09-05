@@ -5,13 +5,22 @@ export interface Category {
   name: string;
 }
 
+export interface PaginatedCategoriesResponse {
+  content: Category[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+}
+
 interface CategoryCreateData {
   name: string;
   description?: string;
 }
 
-export const getCategories = async (): Promise<Category[]> => {
-  const response = await apiClient.get("/categories");
+export const getCategories = async (): Promise<PaginatedCategoriesResponse> => {
+  const response = await apiClient.get("/categories", {
+    params: { size: 100 },
+  });
   return response.data;
 };
 

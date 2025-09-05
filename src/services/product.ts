@@ -1,13 +1,33 @@
 import apiClient from "./apiClient";
 
+export interface PaginatedProductsResponse {
+  content: Product[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  brand: string;
+  variations: {
+    id: number;
+    price: number;
+    stock: number;
+  }[];
+}
+
 export interface ProductFilterParams {
   name?: string;
   categoryId?: number;
   minPrice?: number;
   maxPrice?: number;
+  page?: number;
+  size?: number;
 }
 
-interface ProductCreateData {
+export interface ProductCreateData {
   name: string;
   description: string;
   brand: string;
@@ -53,7 +73,9 @@ export interface VariationData {
   stock: number;
 }
 
-export const getProducts = async (params?: ProductFilterParams) => {
+export const getProducts = async (
+  params?: ProductFilterParams
+): Promise<PaginatedProductsResponse> => {
   const response = await apiClient.get("/products", { params });
   return response.data;
 };

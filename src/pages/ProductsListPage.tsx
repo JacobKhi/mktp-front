@@ -2,9 +2,18 @@ import { useFetchProducts } from "../hooks/useFetchProducts";
 import { ProductCard } from "../components/products/ProductCard";
 import { Spinner } from "../components/ui/Spinner";
 import { ProductFilters } from "../components/products/ProductFilters";
+import { PaginationControls } from "../components/ui/PaginationControls";
 
 export const ProductsListPage = () => {
-  const { products, loading, error, setFilters } = useFetchProducts();
+  const {
+    products,
+    loading,
+    error,
+    setFilters,
+    currentPage,
+    totalPages,
+    goToPage,
+  } = useFetchProducts();
 
   if (error) {
     return <div className="text-center mt-10 text-red-500">{error}</div>;
@@ -23,11 +32,18 @@ export const ProductsListPage = () => {
               <Spinner size="lg" color="border-indigo-600" />
             </div>
           ) : products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+              <PaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={goToPage}
+              />
+            </>
           ) : (
             <p className="text-center text-gray-500">
               Nenhum produto encontrado com os filtros aplicados.
