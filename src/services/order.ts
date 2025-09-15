@@ -16,6 +16,13 @@ export interface Order {
   }[];
 }
 
+export interface PaginatedOrdersResponse {
+  content: Order[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+}
+
 export const OrderStatus = {
   PROCESSING: "PROCESSING",
   PAYMENT_APPROVED: "PAYMENT_APPROVED",
@@ -26,8 +33,13 @@ export const OrderStatus = {
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
-export const getMyOrders = async (): Promise<Order[]> => {
-  const response = await apiClient.get("/orders");
+export const getMyOrders = async (
+  page: number = 0,
+  size: number = 10
+): Promise<PaginatedOrdersResponse> => {
+  const response = await apiClient.get("/orders", {
+    params: { page, size },
+  });
   return response.data;
 };
 
@@ -41,8 +53,13 @@ export const createOrderFromCart = async (): Promise<Order> => {
   return response.data;
 };
 
-export const getSellerOrders = async (): Promise<Order[]> => {
-  const response = await apiClient.get("/seller/orders");
+export const getSellerOrders = async (
+  page: number = 0,
+  size: number = 10
+): Promise<PaginatedOrdersResponse> => {
+  const response = await apiClient.get("/seller/orders", {
+    params: { page, size },
+  });
   return response.data;
 };
 

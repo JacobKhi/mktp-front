@@ -1,5 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import { getMyOrders, type Order, OrderStatus } from "../services/order";
+import {
+  getMyOrders,
+  type Order,
+  OrderStatus,
+  type PaginatedOrdersResponse,
+} from "../services/order";
 import { getProductReviews } from "../services/review";
 import { useAuth } from "./useAuth";
 
@@ -12,16 +17,20 @@ export const useMyOrders = () => {
     new Set()
   );
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   const fetchOrders = useCallback(async () => {
     if (!user) return;
 
     try {
       setLoading(true);
-      const fetchedOrders = await getMyOrders();
-      setOrders(fetchedOrders);
+      const data: PaginatedOrdersResponse = await getMyOrders(currentPage);
+      setOrders(data.content);
+      setTotalPages(data.totalPages);
 
       const deliveredProducts = new Map<number, boolean>();
-      fetchedOrders.forEach((order) => {
+      data.content.forEach((order) => {
         if (order.status === OrderStatus.DELIVERED) {
           order.items.forEach((item) => {
             deliveredProducts.set(item.productId, true);
@@ -46,7 +55,7 @@ export const useMyOrders = () => {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, currentPage]);
 
   useEffect(() => {
     fetchOrders();
@@ -56,11 +65,18 @@ export const useMyOrders = () => {
     setReviewedProductIds((prevIds) => new Set(prevIds).add(productId));
   };
 
+  const goToPage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return {
     orders,
     loading,
     error,
     reviewedProductIds,
     markProductAsReviewed,
+    currentPage,
+    totalPages,
+    goToPage,
   };
 };

@@ -5,6 +5,7 @@ import {
   addTrackingCode,
   type Order,
   type OrderStatus,
+  type PaginatedOrdersResponse,
 } from "../services/order";
 
 export const useSellerOrders = () => {
@@ -12,18 +13,22 @@ export const useSellerOrders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getSellerOrders();
-      setOrders(data);
+      const data: PaginatedOrdersResponse = await getSellerOrders(currentPage);
+      setOrders(data.content);
+      setTotalPages(data.totalPages);
     } catch (err) {
       console.error("Falha ao buscar pedidos do vendedor:", err);
       setError("Não foi possível carregar os pedidos.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     fetchOrders();
@@ -58,11 +63,18 @@ export const useSellerOrders = () => {
     }
   };
 
+  const goToPage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return {
     orders,
     loading,
     error,
     handleUpdateStatus,
     handleAddTracking,
+    currentPage,
+    totalPages,
+    goToPage,
   };
 };
