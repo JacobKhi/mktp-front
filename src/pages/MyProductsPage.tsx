@@ -11,9 +11,18 @@ import { Button } from "../components/Button";
 import { ConfirmationModal } from "../components/ui/ConfirmationModal";
 import { ProductDetailModal } from "../components/ui/ProductDetailModal";
 import { Spinner } from "../components/ui/Spinner";
+import { PaginationControls } from "../components/ui/PaginationControls";
 
 export const MyProductsPage = () => {
-  const { products, loading, error, handleDelete } = useSellerProducts();
+  const {
+    products,
+    loading,
+    error,
+    handleDelete,
+    currentPage,
+    totalPages,
+    goToPage,
+  } = useSellerProducts();
 
   const [productToDelete, setProductToDelete] = useState<SellerProduct | null>(
     null
@@ -69,38 +78,45 @@ export const MyProductsPage = () => {
       </div>
 
       {products.length > 0 ? (
-        <ul className="divide-y divide-gray-200">
-          {products.map((product) => (
-            <li
-              key={product.id}
-              className="py-4 flex flex-col sm:flex-row justify-between items-center"
-            >
-              <div>
-                <button
-                  onClick={() => handleViewDetails(product.id)}
-                  className="text-lg font-medium text-indigo-600 hover:underline text-left"
-                  disabled={detailsLoading}
-                >
-                  {product.name}
-                </button>
-                <p className="text-sm text-gray-500">{product.brand}</p>
-              </div>
-              <div className="flex gap-4 mt-4 sm:mt-0">
-                <Link to={`/seller/products/edit/${product.id}`}>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-sm py-1 px-3">
-                    Editar
+        <>
+          <ul className="divide-y divide-gray-200">
+            {products.map((product) => (
+              <li
+                key={product.id}
+                className="py-4 flex flex-col sm:flex-row justify-between items-center"
+              >
+                <div>
+                  <button
+                    onClick={() => handleViewDetails(product.id)}
+                    className="text-lg font-medium text-indigo-600 hover:underline text-left"
+                    disabled={detailsLoading}
+                  >
+                    {product.name}
+                  </button>
+                  <p className="text-sm text-gray-500">{product.brand}</p>
+                </div>
+                <div className="flex gap-4 mt-4 sm:mt-0">
+                  <Link to={`/seller/products/edit/${product.id}`}>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-sm py-1 px-3">
+                      Editar
+                    </Button>
+                  </Link>
+                  <Button
+                    onClick={() => setProductToDelete(product)}
+                    className="bg-red-600 hover:bg-red-700 text-sm py-1 px-3"
+                  >
+                    Excluir
                   </Button>
-                </Link>
-                <Button
-                  onClick={() => setProductToDelete(product)}
-                  className="bg-red-600 hover:bg-red-700 text-sm py-1 px-3"
-                >
-                  Excluir
-                </Button>
-              </div>
-            </li>
-          ))}
-        </ul>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={goToPage}
+          />
+        </>
       ) : (
         <p className="text-center text-gray-500">
           Você ainda não cadastrou nenhum produto.

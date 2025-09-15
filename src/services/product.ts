@@ -7,6 +7,15 @@ export interface PaginatedProductsResponse {
   number: number;
 }
 
+export interface PaginatedSellerProducts {
+  content: SellerProduct[];
+}
+
+export interface PaginatedProducts {
+  content: Product[];
+  totalPages: number;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -80,8 +89,13 @@ export const getProducts = async (
   return response.data;
 };
 
-export const getSellerProducts = async (): Promise<SellerProduct[]> => {
-  const response = await apiClient.get("/seller/products");
+export const getSellerProducts = async (
+  page: number = 0,
+  size: number = 10
+): Promise<PaginatedProductsResponse> => {
+  const response = await apiClient.get("/seller/products", {
+    params: { page, size },
+  });
   return response.data;
 };
 
@@ -117,18 +131,19 @@ export const addVariationToProduct = async (
   variationData: VariationData
 ) => {
   const response = await apiClient.post(
-    `/seller/products/${productId}/variacoes`,
+    `/seller/products/${productId}/variation`,
     variationData
   );
   return response.data;
 };
 
 export const updateVariation = async (
+  productId: number,
   variationId: number,
   variationData: VariationData
 ) => {
   const response = await apiClient.put(
-    `/seller/products/variacoes/${variationId}`,
+    `/seller/products/${productId}/variation/${variationId}`,
     variationData
   );
   return response.data;
