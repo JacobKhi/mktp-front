@@ -5,7 +5,10 @@ import {
   OrderStatus,
   type PaginatedOrdersResponse,
 } from "../services/order";
-import { getProductReviews } from "../services/review";
+import {
+  getProductReviews,
+  type PaginatedReviewsResponse,
+} from "../services/review";
 import { useAuth } from "./useAuth";
 
 export const useMyOrders = () => {
@@ -25,7 +28,7 @@ export const useMyOrders = () => {
 
     try {
       setLoading(true);
-      const data: PaginatedOrdersResponse = await getMyOrders(currentPage, 10);
+      const data: PaginatedOrdersResponse = await getMyOrders(currentPage, 3);
       setOrders(data.content);
       setTotalPages(data.totalPages);
 
@@ -40,8 +43,12 @@ export const useMyOrders = () => {
 
       const idsToUpdate = new Set<number>();
       for (const productId of deliveredProducts.keys()) {
-        const reviews = await getProductReviews(productId);
-        const userHasReviewed = reviews.some(
+        const reviewsData: PaginatedReviewsResponse = await getProductReviews(
+          productId,
+          0,
+          10
+        );
+        const userHasReviewed = reviewsData.content.some(
           (review) => review.reviewerName === user.name
         );
         if (userHasReviewed) {

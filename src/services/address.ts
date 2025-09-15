@@ -19,8 +19,18 @@ export interface AddressCreateData {
   state: string;
 }
 
-export const getAddresses = async (): Promise<Address[]> => {
-  const response = await apiClient.get("/addresses");
+export interface PaginatedAddressesResponse {
+  content: Address[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+}
+
+export const getAddresses = async (): Promise<PaginatedAddressesResponse> => {
+  const response = await apiClient.get("/addresses", {
+    params: { page: 0, size: 5 },
+  });
+  //const response = await apiClient.get("/addresses");
   return response.data;
 };
 

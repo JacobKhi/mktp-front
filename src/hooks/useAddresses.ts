@@ -5,6 +5,7 @@ import {
   deleteAddress,
   type Address,
   type AddressCreateData,
+  type PaginatedAddressesResponse,
 } from "../services/address";
 
 export const useAddresses = () => {
@@ -15,8 +16,8 @@ export const useAddresses = () => {
   const fetchAddresses = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getAddresses();
-      setAddresses(data);
+      const data: PaginatedAddressesResponse = await getAddresses();
+      setAddresses(data.content);
     } catch (err) {
       console.error("Falha ao buscar endereços:", err);
       setError("Não foi possível carregar seus endereços.");

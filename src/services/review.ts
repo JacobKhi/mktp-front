@@ -27,6 +27,11 @@ export interface Review {
   productId: number;
 }
 
+export interface PaginatedReviewsResponse {
+  content: Review[];
+  totalPages: number;
+}
+
 export const createReview = async (
   reviewData: ReviewCreateData
 ): Promise<Review> => {
@@ -58,8 +63,12 @@ export const addSellerResponse = async (
 };
 
 export const getProductReviews = async (
-  productId: number
-): Promise<Review[]> => {
-  const response = await apiClient.get(`/products/${productId}/reviews`);
+  productId: number,
+  page: number = 0,
+  size: number = 10
+): Promise<PaginatedReviewsResponse> => {
+  const response = await apiClient.get(`/products/${productId}/reviews`, {
+    params: { page, size },
+  });
   return response.data;
 };
