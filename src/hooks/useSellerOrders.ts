@@ -19,7 +19,10 @@ export const useSellerOrders = () => {
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const data: PaginatedOrdersResponse = await getSellerOrders(currentPage);
+      const data: PaginatedOrdersResponse = await getSellerOrders(
+        currentPage,
+        10
+      );
       setOrders(data.content);
       setTotalPages(data.totalPages);
     } catch (err) {

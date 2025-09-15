@@ -25,7 +25,7 @@ export const useMyOrders = () => {
 
     try {
       setLoading(true);
-      const data: PaginatedOrdersResponse = await getMyOrders(currentPage);
+      const data: PaginatedOrdersResponse = await getMyOrders(currentPage, 10);
       setOrders(data.content);
       setTotalPages(data.totalPages);
 

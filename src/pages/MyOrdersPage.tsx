@@ -58,7 +58,10 @@ export const MyOrdersPage = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-semibold">
-                      Total: R$ {order.totalAmount.toFixed(2)}
+                      Total: R${" "}
+                      {typeof order.totalAmount === "number"
+                        ? order.totalAmount.toFixed(2)
+                        : Number(order.totalAmount).toFixed(2)}
                     </p>
                     <p className="text-sm text-gray-500">
                       Status: {order.status}
