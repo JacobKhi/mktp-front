@@ -11,23 +11,34 @@ interface SellerRequest {
   email: string;
 }
 
+interface PaginatedSellerRequestsResponse {
+  content: SellerRequest[];
+  totalPages: number;
+}
+
 export const useSellerRequests = () => {
   const [requests, setRequests] = useState<SellerRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const fetchRequests = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getSellerRequests();
-      setRequests(data);
+      const data: PaginatedSellerRequestsResponse = await getSellerRequests(
+        currentPage,
+        10
+      );
+      setRequests(data.content);
+      setTotalPages(data.totalPages);
     } catch (err) {
-      console.error("Falha ao buscar solicitações:", err);
-      setError("Não foi possível carregar as solicitações.");
+      console.error("Failed to fetch seller requests:", err);
+      setError("Não foi possível carregar as solicitações de vendedores.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     fetchRequests();
@@ -37,10 +48,10 @@ export const useSellerRequests = () => {
     try {
       await approveSellerRequest(userId);
       setRequests((prevRequests) =>
-        prevRequests.filter((req) => req.id !== userId)
+        prevRequests.filter((request) => request.id !== userId)
       );
     } catch (err) {
-      console.error("Falha ao aprovar solicitação:", err);
+      console.error("Falha ao aprovar a solicitação:", err);
     }
   };
 
@@ -48,11 +59,15 @@ export const useSellerRequests = () => {
     try {
       await rejectSellerRequest(userId);
       setRequests((prevRequests) =>
-        prevRequests.filter((req) => req.id !== userId)
+        prevRequests.filter((request) => request.id !== userId)
       );
     } catch (err) {
-      console.error("Falha ao rejeitar solicitação:", err);
+      console.error("Falha ao rejeitar a solicitação:", err);
     }
+  };
+
+  const goToPage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
 
   return {
@@ -61,5 +76,8 @@ export const useSellerRequests = () => {
     error,
     handleApprove,
     handleReject,
+    currentPage,
+    totalPages,
+    goToPage,
   };
 };

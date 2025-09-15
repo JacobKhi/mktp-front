@@ -8,8 +8,27 @@ export interface AdminUser {
   isActive: boolean;
 }
 
-export const getSellerRequests = async () => {
-  const response = await apiClient.get("/admin/users/seller-requests");
+export interface PaginatedUsersResponse {
+  content: AdminUser[];
+  totalPages: number;
+}
+
+export interface PaginatedSellerRequestsResponse {
+  content: {
+    id: number;
+    name: string;
+    email: string;
+  }[];
+  totalPages: number;
+}
+
+export const getSellerRequests = async (
+  page: number = 0,
+  size: number = 10
+): Promise<PaginatedSellerRequestsResponse> => {
+  const response = await apiClient.get("/admin/users/seller-requests", {
+    params: { page, size },
+  });
   return response.data;
 };
 
@@ -25,8 +44,13 @@ export const rejectSellerRequest = async (userId: number) => {
   return response.data;
 };
 
-export const getAllUsers = async (): Promise<AdminUser[]> => {
-  const response = await apiClient.get("/admin/users");
+export const getAllUsers = async (
+  page: number = 0,
+  size: number = 10
+): Promise<PaginatedUsersResponse> => {
+  const response = await apiClient.get("/admin/users", {
+    params: { page, size },
+  });
   return response.data;
 };
 

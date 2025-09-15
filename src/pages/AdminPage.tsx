@@ -6,6 +6,7 @@ import { ConfirmationModal } from "../components/ui/ConfirmationModal";
 import { PageCard } from "../components/ui/PageCard";
 import { Spinner } from "../components/ui/Spinner";
 import { type AdminUser } from "../services/admin";
+import { PaginationControls } from "../components/ui/PaginationControls";
 
 interface SellerRequest {
   id: number;
@@ -33,6 +34,9 @@ export const AdminPage = () => {
     error: usersError,
     handleToggleActivation,
     handleDeleteUser,
+    currentPage,
+    totalPages,
+    goToPage,
   } = useUsers();
 
   const [confirmation, setConfirmation] = useState<ConfirmationState | null>(
@@ -219,6 +223,11 @@ export const AdminPage = () => {
             </div>
           ))}
         </div>
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={goToPage}
+        />
       </section>
 
       <ConfirmationModal

@@ -4,6 +4,7 @@ import {
   toggleUserActivation,
   deleteUser,
   type AdminUser,
+  type PaginatedUsersResponse,
 } from "../services/admin";
 import { useAuth } from "./useAuth";
 
@@ -12,20 +13,25 @@ export const useUsers = () => {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getAllUsers();
-      const filteredData = data.filter((user) => user.id !== currentUser?.id);
+      const data: PaginatedUsersResponse = await getAllUsers(currentPage, 10);
+      const filteredData = data.content.filter(
+        (user) => user.id !== currentUser?.id
+      );
       setUsers(filteredData);
+      setTotalPages(data.totalPages);
     } catch (err) {
       console.error("Falha ao buscar utilizadores:", err);
       setError("Não foi possível carregar a lista de utilizadores.");
     } finally {
       setLoading(false);
     }
-  }, [currentUser]);
+  }, [currentUser, currentPage]);
 
   useEffect(() => {
     fetchUsers();
@@ -53,11 +59,18 @@ export const useUsers = () => {
     }
   };
 
+  const goToPage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return {
     users,
     loading,
     error,
     handleToggleActivation,
     handleDeleteUser,
+    currentPage,
+    totalPages,
+    goToPage,
   };
 };

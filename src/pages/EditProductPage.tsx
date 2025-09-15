@@ -91,8 +91,13 @@ export const EditProductPage = () => {
     variationId: number,
     data: VariationData
   ) => {
+    if (!productId) return;
     try {
-      const updatedVariation = await updateVariation(variationId, data);
+      const updatedVariation = await updateVariation(
+        parseInt(productId, 10),
+        variationId,
+        data
+      );
       setProductDetails((prevDetails) => {
         if (!prevDetails) return null;
         return {
