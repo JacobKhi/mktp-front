@@ -19,7 +19,7 @@ export const useUsers = () => {
   const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
-      const data: PaginatedUsersResponse = await getAllUsers(currentPage, 10);
+      const data: PaginatedUsersResponse = await getAllUsers(currentPage, 5);
       const filteredData = data.content.filter(
         (user) => user.id !== currentUser?.id
       );

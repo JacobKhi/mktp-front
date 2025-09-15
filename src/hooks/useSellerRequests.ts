@@ -19,7 +19,7 @@ export const useSellerRequests = () => {
       setLoading(true);
       const data: PaginatedSellerRequestsResponse = await getSellerRequests(
         currentPage,
-        10
+        5
       );
       setRequests(data.content);
       setTotalPages(data.totalPages);
