@@ -13,12 +13,14 @@ export interface PaginatedUsersResponse {
   totalPages: number;
 }
 
+export interface SellerRequest {
+  id: number;
+  name: string;
+  email: string;
+}
+
 export interface PaginatedSellerRequestsResponse {
-  content: {
-    id: number;
-    name: string;
-    email: string;
-  }[];
+  content: SellerRequest[];
   totalPages: number;
 }
 

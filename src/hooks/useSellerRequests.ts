@@ -3,18 +3,9 @@ import {
   getSellerRequests,
   approveSellerRequest,
   rejectSellerRequest,
+  type SellerRequest,
+  type PaginatedSellerRequestsResponse,
 } from "../services/admin";
-
-interface SellerRequest {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface PaginatedSellerRequestsResponse {
-  content: SellerRequest[];
-  totalPages: number;
-}
 
 export const useSellerRequests = () => {
   const [requests, setRequests] = useState<SellerRequest[]>([]);

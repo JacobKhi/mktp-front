@@ -26,6 +26,9 @@ export const AdminPage = () => {
     error: requestsError,
     handleApprove,
     handleReject,
+    currentPage: requestsCurrentPage,
+    totalPages: requestsTotalPages,
+    goToPage: requestsGoToPage,
   } = useSellerRequests();
 
   const {
@@ -34,9 +37,9 @@ export const AdminPage = () => {
     error: usersError,
     handleToggleActivation,
     handleDeleteUser,
-    currentPage,
-    totalPages,
-    goToPage,
+    currentPage: usersCurrentPage,
+    totalPages: usersTotalPages,
+    goToPage: usersGoToPage,
   } = useUsers();
 
   const [confirmation, setConfirmation] = useState<ConfirmationState | null>(
@@ -174,6 +177,11 @@ export const AdminPage = () => {
         ) : (
           <p>Nenhuma solicitação pendente no momento.</p>
         )}
+        <PaginationControls
+          currentPage={requestsCurrentPage}
+          totalPages={requestsTotalPages}
+          onPageChange={requestsGoToPage}
+        />
       </section>
 
       <section className="mt-8 pt-6 border-t">
@@ -224,9 +232,9 @@ export const AdminPage = () => {
           ))}
         </div>
         <PaginationControls
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={goToPage}
+          currentPage={usersCurrentPage}
+          totalPages={usersTotalPages}
+          onPageChange={usersGoToPage}
         />
       </section>
 
